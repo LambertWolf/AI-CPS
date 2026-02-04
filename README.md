@@ -3,7 +3,7 @@
 This repository contains our course project for predicting public transport delays (in minutes) for a given stop and timestamp.  
 We build two models: a baseline **OLS regression** and an improved **ANN (neural network)** with feature engineering.
 
- We have the model with data collected ourselves via the VBB API. However, it is also conceivable to collect (presumably less accurate) data via the [gtfs standard](https://gtfs.org/). 
+ We have trained the model with data we collected ourselves via the VBB API. However, it is also conceivable to collect (presumably less accurate) data via the [gtfs standard](https://gtfs.org/). 
 
 ## What it does
 - Predicts `delay_minutes` for each (`stop_id`, `timestamp`)
