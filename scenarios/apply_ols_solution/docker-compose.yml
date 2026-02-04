@@ -1,0 +1,43 @@
+volumes:
+  ai_system:
+    external: true
+    name: ai_system
+
+services:
+  clean_tmp:
+    image: busybox:latest
+    volumes:
+      - ai_system:/tmp
+    command:
+      - sh
+      - -c
+      - rm -rf /tmp/* && echo "tmp cleaned"
+
+  knowledgebase:
+    image: maggusrulez/knowledgebase_sbahn_delay_prediction:1.0
+    volumes:
+      - ai_system:/tmp
+    depends_on:
+      - clean_tmp
+
+  activationbase:
+    image: maggusrulez/activationbase_sbahn_delay_prediction:1.1
+    volumes:
+      - ai_system:/tmp
+    depends_on:
+      - knowledgebase
+
+  codebase:
+    image: maggusrulez/codebase_sbahn_delay_prediction:1.0
+    volumes:
+      - ai_system:/tmp
+    depends_on:
+      - activationbase
+    command:
+      - python
+      - /app/apply_ols_model.py
+      - --model
+      - /tmp/knowledgeBase/currentOlsSolution.pkl
+      - --data
+      - /tmp/activationBase/activation_data.csv
+
